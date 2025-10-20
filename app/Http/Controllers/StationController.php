@@ -6,58 +6,58 @@ use App\Http\Requests\CreateStationRequest;
 use App\Http\Requests\UpdateStationRequest;
 use App\Http\Resources\StationResource;
 use App\Models\Station;
+use App\Traits\ApiResponseTrait;
 use Illuminate\Http\Request;
 
 class StationController extends Controller
 {
+    use ApiResponseTrait;
+
     public function index()
     {
         $stations = Station::with('branches')->paginate(10);
 
-        return response()->json([
-            'stations' => StationResource::collection($stations),
-        ], 200);
+        return $this->successResponse(
+            StationResource::collection($stations),
+            'Stations retrieved successfully.'
+        );
     }
 
     public function show(Station $station)
     {
-        $station = Station::with('branches');
+        $station->load('branches');
 
-        return response()->json([
-            'station' => new StationResource($station)
-        ], 200);
+        return $this->successResponse(
+            new StationResource($station),
+            'Station details retrieved successfully.'
+        );
     }
 
     public function store(CreateStationRequest $request)
     {
-        $data = $request->validated();
+        $station = Station::create($request->validated());
 
-        $station = Station::create($data);
-
-        return response()->json([
-            'station' => new StationResource($station),
-            'message' => 'Station created successfully.'
-        ], 201);
+        return $this->successResponse(
+            new StationResource($station),
+            'Station created successfully.',
+            201
+        );
     }
 
     public function update(UpdateStationRequest $request, Station $station)
     {
-        $data = $request->validated();
+        $station->update($request->validated());
 
-        $station->update($data);
-
-        return response()->json([
-            'station' => new StationResource($station),
-            'message' => 'Station updated successfully.'
-        ], 200);
+        return $this->successResponse(
+            new StationResource($station),
+            'Station updated successfully.'
+        );
     }
 
     public function destroy(Station $station)
     {
         $station->delete();
 
-        return response()->json([
-            'message' => 'Station deleted successfully.'
-        ], 200);
+        return $this->successResponse(null, 'Station deleted successfully.');
     }
 }
