@@ -23,7 +23,6 @@ class UpdateWashTypeRequest extends FormRequest
     {
         return [
             'name' => ['sometimes', 'string', 'max:255'],
-            'duration' => ['sometimes', 'integer', 'min:1'],
             'price' => ['sometimes', 'numeric', 'min:0'],
             'description' => ['nullable', 'string'],
         ];

@@ -23,7 +23,6 @@ class CreateWashTypeRequest extends FormRequest
     {
         return [
             'name' => ['required', 'string', 'max:255'],
-            'duration' => ['required', 'integer', 'min:1'],
             'price' => ['required', 'numeric', 'min:0'],
             'description' => ['nullable', 'string'],
         ];

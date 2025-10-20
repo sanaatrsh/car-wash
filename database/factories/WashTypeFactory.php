@@ -18,7 +18,7 @@ class WashTypeFactory extends Factory
     {
         return [
             'name' => $this->faker->word() . ' Wash',
-            'duration' => $this->faker->numberBetween(30, 120),
+            'duration' => 45,
             'price' => $this->faker->randomFloat(2, 5, 50),
             'description' => $this->faker->sentence(),
             'created_at' => now(),
