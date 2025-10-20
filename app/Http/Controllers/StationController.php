@@ -13,15 +13,26 @@ class StationController extends Controller
 {
     use ApiResponseTrait;
 
-    public function index()
+    public function index(Request $request)
     {
-        $stations = Station::with('branches')->latest()->paginate(10);
+        $lat = $request->input('lat');
+        $lng = $request->input('lng');
+
+        $stationsQuery = Station::with('branches')->latest();
+
+        //return stations by the nearest
+        if ($lat && $lng) {
+            $stationsQuery = $stationsQuery->nearLocation($lat, $lng);
+        }
+
+        $stations = $stationsQuery->paginate(10);
 
         return $this->successResponse(
             StationResource::collection($stations),
             'Stations retrieved successfully.'
         );
     }
+
 
     public function store(CreateStationRequest $request)
     {
