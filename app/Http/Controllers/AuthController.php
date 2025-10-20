@@ -6,15 +6,17 @@ use App\Http\Requests\LoginRequest;
 use App\Http\Requests\SignInRequest;
 use App\Http\Resources\UserResource;
 use App\Models\User;
+use App\Traits\ApiResponseTrait;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
 class AuthController extends Controller
 {
+    use ApiResponseTrait;
+
     public function signIn(SignInRequest $request)
     {
         $data = $request->validated();
-
         $data['password'] = Hash::make($data['password']);
 
         $user = User::create($data);
@@ -23,10 +25,10 @@ class AuthController extends Controller
 
         $token = $user->createToken('api-token')->plainTextToken;
 
-        return response()->json([
-            'user' =>  new UserResource($user),
-            'token' => $token,
-        ], 201);
+        return $this->successResponse([
+            'user' => new UserResource($user),
+            'token' => $token
+        ], 'User registered successfully.', 201);
     }
 
     public function login(LoginRequest $request)
@@ -36,25 +38,21 @@ class AuthController extends Controller
         $user = User::where('email', $data['email'])->first();
 
         if (!$user || ! Hash::check($data['password'], $user->password)) {
-            return response()->json([
-                'message' => 'The provided credentials are incorrect.'
-            ], 401);
+            return $this->errorResponse('The provided credentials are incorrect.', 401);
         }
 
         $token = $user->createToken('api-token')->plainTextToken;
 
-        return response()->json([
+        return $this->successResponse([
             'user' => new UserResource($user),
-            'token' => $token,
-        ], 200);
+            'token' => $token
+        ], 'User logged in successfully.', 200);
     }
 
     public function logout()
     {
         Auth::user()->currentAccessToken()->delete();
 
-        return response()->json([
-            'message' => 'Logged out successfully',
-        ], 200);
+        return $this->successResponse(null, 'Logged out successfully.');
     }
 }
