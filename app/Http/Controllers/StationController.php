@@ -23,16 +23,6 @@ class StationController extends Controller
         );
     }
 
-    public function show(Station $station)
-    {
-        $station->load('branches');
-
-        return $this->successResponse(
-            new StationResource($station),
-            'Station details retrieved successfully.'
-        );
-    }
-
     public function store(CreateStationRequest $request)
     {
         $station = Station::create($request->validated());
