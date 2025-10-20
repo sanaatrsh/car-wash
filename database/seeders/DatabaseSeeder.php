@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Booking;
 use App\Models\Station;
 use App\Models\User;
 use App\Models\WashType;
@@ -31,5 +32,6 @@ class DatabaseSeeder extends Seeder
         User::factory(10)->create();
         Station::factory(10)->create();
         WashType::factory(10)->create();
+        Booking::factory(10)->create();
     }
 }
