@@ -94,25 +94,25 @@ return [
     'url'                  => 'The :attribute format is invalid.',
 
     // Custom validation messages specific to this project
-    'custom' => [
-        'booking' => [
-            'only_pending_cancel'   => 'You can only cancel pending bookings.',
-            'cancel_two_hours_rule' => 'You cannot cancel less than 2 hours before the booking time.',
-            'date_in_past'          => 'You cannot book in a past day.',
-            'date_too_far'          => 'You cannot book more than a month in advance.',
-            'outside_working_hours' => 'Selected time is outside station working hours.',
-            'conflict_time_slot'    => 'There is another booking in this time slot.',
-        ],
-        'closing_time' => [
-            'after' => 'Closing time must be after opening time.',
-        ],
-        'date' => [
-            'after_or_equal' => 'The date must be today or a future date.',
-        ],
-        'start_time' => [
-            'date_format' => 'The start time must be in the format HH:MM.',
-        ],
+    // 'custom' => [
+    'booking' => [
+        'only_pending_cancel'   => 'You can only cancel pending bookings.',
+        'cancel_two_hours_rule' => 'You cannot cancel less than 2 hours before the booking time.',
+        'date_in_past'          => 'You cannot book in a past day.',
+        'date_too_far'          => 'You cannot book more than a month in advance.',
+        'outside_working_hours' => 'Selected time is outside station working hours.',
+        'conflict_time_slot'    => 'There is another booking in this time slot.',
     ],
+    'closing_time' => [
+        'after' => 'Closing time must be after opening time.',
+    ],
+    'date' => [
+        'after_or_equal' => 'The date must be today or a future date.',
+    ],
+    'start_time' => [
+        'date_format' => 'The start time must be in the format HH:MM.',
+    ],
+    // ],
 
     // Attribute name translations
     'attributes' => [
@@ -146,5 +146,3 @@ return [
         'status'             => 'status',
     ],
 ];
-
-

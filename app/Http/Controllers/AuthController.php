@@ -23,6 +23,10 @@ class AuthController extends Controller
 
         $user->assignRole('user');
 
+        if ($request->hasFile('avatar')) {
+            $user->addMediaFromRequest('avatar')->toMediaCollection('avatars');
+        }
+
         $token = $user->createToken('api-token')->plainTextToken;
 
         return $this->successResponse([

@@ -19,6 +19,8 @@ class UserResource extends JsonResource
             "name" => $this->name,
             "email" => $this->email,
             "role" => $this->roles->first()?->name,
+            'avatar' => $this->getFirstMediaUrl('avatars') ?: null,
+
         ];
     }
 }
