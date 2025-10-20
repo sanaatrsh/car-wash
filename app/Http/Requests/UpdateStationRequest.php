@@ -23,8 +23,12 @@ class UpdateStationRequest extends FormRequest
     {
         return [
             'parent_station_id' => ['nullable', 'exists:stations,id'],
-            'name'              => ['sometimes', 'string', 'max:255'],
-            'address'           => ['sometimes', 'string', 'max:255'],
+            'name'              => ['sometimes', 'array'],
+            'name.en'           => ['sometimes', 'string', 'max:255'],
+            'name.ar'           => ['sometimes', 'string', 'max:255'],
+            'address'           => ['sometimes', 'array'],
+            'address.en'        => ['sometimes', 'string', 'max:255'],
+            'address.ar'        => ['sometimes', 'string', 'max:255'],
             'location_x'        => ['sometimes', 'numeric', 'between:-90,90'],
             'location_y'        => ['sometimes', 'numeric', 'between:-180,180'],
             'opening_time'      => ['sometimes', 'date_format:H:i'],

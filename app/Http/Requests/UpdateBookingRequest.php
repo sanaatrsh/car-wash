@@ -20,4 +20,11 @@ class UpdateBookingRequest extends FormRequest
             'status' => ['required', new Enum(BookingStatusEnum::class)],
         ];
     }
+
+    public function messages(): array
+    {
+        return [
+            'status.required' => __('validation.required', ['attribute' => __('validation.attributes.status')]),
+        ];
+    }
 }

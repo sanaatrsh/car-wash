@@ -22,9 +22,13 @@ class CreateWashTypeRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => ['required', 'string', 'max:255'],
-            'price' => ['required', 'numeric', 'min:0'],
-            'description' => ['nullable', 'string'],
+            'name'              => ['required', 'array'],
+            'name.en'           => ['required', 'string'],
+            'name.ar'           => ['required', 'string'],
+            'price'             => ['required', 'numeric', 'min:0'],
+            'description'       => ['nullable', 'array'],
+            'description.en'    => ['nullable', 'string', 'max:244'],
+            'description.ar'    => ['nullable', 'string', 'max:244'],
         ];
     }
 }

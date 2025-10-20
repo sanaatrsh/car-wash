@@ -1,0 +1,148 @@
+<?php
+
+return [
+    // رسائل التحقق الافتراضية في لارافيل
+    'accepted'             => 'يجب قبول :attribute.',
+    'active_url'           => ':attribute ليس رابطاً صالحاً.',
+    'after'                => 'يجب أن يكون :attribute تاريخاً بعد :date.',
+    'after_or_equal'       => 'يجب أن يكون :attribute تاريخاً بعد أو يساوي :date.',
+    'alpha'                => 'قد يحتوي :attribute على أحرف فقط.',
+    'alpha_dash'           => 'قد يحتوي :attribute على أحرف، أرقام، شرطات وشرطات سفلية فقط.',
+    'alpha_num'            => 'قد يحتوي :attribute على أحرف وأرقام فقط.',
+    'array'                => 'يجب أن يكون :attribute مصفوفة.',
+    'before'               => 'يجب أن يكون :attribute تاريخاً قبل :date.',
+    'before_or_equal'      => 'يجب أن يكون :attribute تاريخاً قبل أو يساوي :date.',
+    'between'              => [
+        'numeric' => 'يجب أن تكون قيمة :attribute بين :min و :max.',
+        'file'    => 'يجب أن يكون حجم ملف :attribute بين :min و :max كيلوبايت.',
+        'string'  => 'يجب أن يكون طول :attribute بين :min و :max حروف.',
+        'array'   => 'يجب أن يحتوي :attribute بين :min و :max عناصر.',
+    ],
+    'boolean'              => 'يجب أن يكون حقل :attribute إما صحيح أو خطأ.',
+    'confirmed'            => 'تأكيد :attribute غير مطابق.',
+    'date'                 => ':attribute ليس تاريخاً صالحاً.',
+    'date_equals'          => 'يجب أن يكون :attribute تاريخاً يساوي :date.',
+    'date_format'          => 'لا يطابق :attribute التنسيق :format.',
+    'different'            => 'يجب أن يختلف :attribute عن :other.',
+    'digits'               => 'يجب أن يحتوي :attribute على :digits أرقام.',
+    'digits_between'       => 'يجب أن يكون :attribute بين :min و :max أرقام.',
+    'email'                => 'يجب أن يكون :attribute بريداً إلكترونياً صالحاً.',
+    'exists'               => ':attribute المحدد غير صالح.',
+    'filled'               => 'يجب تعبئة حقل :attribute.',
+    'gt'                   => [
+        'numeric' => 'يجب أن تكون قيمة :attribute أكبر من :value.',
+        'file'    => 'يجب أن يكون حجم ملف :attribute أكبر من :value كيلوبايت.',
+        'string'  => 'يجب أن يكون طول :attribute أكبر من :value حروف.',
+        'array'   => 'يجب أن يحتوي :attribute على أكثر من :value عناصر.',
+    ],
+    'gte'                  => [
+        'numeric' => 'يجب أن تكون قيمة :attribute أكبر من أو تساوي :value.',
+        'file'    => 'يجب أن يكون حجم ملف :attribute أكبر من أو يساوي :value كيلوبايت.',
+        'string'  => 'يجب أن يكون طول :attribute أكبر من أو يساوي :value حروف.',
+        'array'   => 'يجب أن يحتوي :attribute على :value عناصر أو أكثر.',
+    ],
+    'in'                   => ':attribute المحدد غير صالح.',
+    'integer'              => 'يجب أن يكون :attribute عدداً صحيحاً.',
+    'json'                 => 'يجب أن يكون :attribute نص JSON صالح.',
+    'lt'                   => [
+        'numeric' => 'يجب أن تكون قيمة :attribute أقل من :value.',
+        'file'    => 'يجب أن يكون حجم ملف :attribute أقل من :value كيلوبايت.',
+        'string'  => 'يجب أن يكون طول :attribute أقل من :value حروف.',
+        'array'   => 'يجب أن يحتوي :attribute على أقل من :value عناصر.',
+    ],
+    'lte'                  => [
+        'numeric' => 'يجب أن تكون قيمة :attribute أقل من أو تساوي :value.',
+        'file'    => 'يجب أن يكون حجم ملف :attribute أقل من أو يساوي :value كيلوبايت.',
+        'string'  => 'يجب أن يكون طول :attribute أقل من أو يساوي :value حروف.',
+        'array'   => 'يجب ألا يحتوي :attribute على أكثر من :value عناصر.',
+    ],
+    'max'                  => [
+        'numeric' => 'قد لا تكون قيمة :attribute أكبر من :max.',
+        'file'    => 'قد لا يكون حجم ملف :attribute أكبر من :max كيلوبايت.',
+        'string'  => 'قد لا يكون طول :attribute أكبر من :max حروف.',
+        'array'   => 'قد لا يحتوي :attribute على أكثر من :max عناصر.',
+    ],
+    'mimes'                => 'يجب أن يكون :attribute ملفاً من نوع: :values.',
+    'mimetypes'            => 'يجب أن يكون :attribute ملفاً من نوع: :values.',
+    'min'                  => [
+        'numeric' => 'يجب أن تكون قيمة :attribute على الأقل :min.',
+        'file'    => 'يجب أن يكون حجم ملف :attribute على الأقل :min كيلوبايت.',
+        'string'  => 'يجب أن لا يقل طول :attribute عن :min حروف.',
+        'array'   => 'يجب أن يحتوي :attribute على الأقل :min عناصر.',
+    ],
+    'not_in'               => ':attribute المحدد غير صالح.',
+    'numeric'              => 'يجب أن يكون :attribute رقماً.',
+    'present'              => 'يجب تقديم حقل :attribute.',
+    'regex'                => 'تنسيق :attribute غير صالح.',
+    'required'             => 'حقل :attribute مطلوب.',
+    'required_if'          => 'حقل :attribute مطلوب عندما يكون :other بقيمة :value.',
+    'required_unless'      => 'حقل :attribute مطلوب إلا إذا كان :other ضمن :values.',
+    'required_with'        => 'حقل :attribute مطلوب عند وجود :values.',
+    'required_with_all'    => 'حقل :attribute مطلوب عند وجود :values.',
+    'required_without'     => 'حقل :attribute مطلوب عند عدم وجود :values.',
+    'required_without_all' => 'حقل :attribute مطلوب عند عدم وجود أي من :values.',
+    'same'                 => 'يجب أن يتطابق :attribute مع :other.',
+    'size'                 => [
+        'numeric' => 'يجب أن تكون قيمة :attribute :size.',
+        'file'    => 'يجب أن يكون حجم ملف :attribute :size كيلوبايت.',
+        'string'  => 'يجب أن يكون طول :attribute :size حروف.',
+        'array'   => 'يجب أن يحتوي :attribute على :size عناصر.',
+    ],
+    'string'               => 'يجب أن يكون :attribute نصاً.',
+    'timezone'             => 'يجب أن يكون :attribute منطقة زمنية صالحة.',
+    'unique'               => 'قيمة :attribute مستخدمة من قبل.',
+    'url'                  => 'تنسيق :attribute غير صالح.',
+
+    // رسائل مخصصة للمشروع
+    // 'custom' => [
+    'booking' => [
+        'only_pending_cancel'   => 'يمكن إلغاء الحجوزات المعلقة فقط.',
+        'cancel_two_hours_rule' => 'لا يمكن الإلغاء قبل موعد الحجز بأقل من ساعتين.',
+        'date_in_past'          => 'لا يمكن الحجز في يوم منتهي.',
+        'date_too_far'          => 'لا يمكن الحجز لأكثر من شهر مسبقاً.',
+        'outside_working_hours' => 'الوقت المحدد خارج ساعات عمل المحطة.',
+        'conflict_time_slot'    => 'يوجد حجز آخر في نفس الفترة الزمنية.',
+    ],
+    'closing_time' => [
+        'after' => 'يجب أن يكون وقت الإغلاق بعد وقت الافتتاح.',
+    ],
+    'date' => [
+        'after_or_equal' => 'يجب أن يكون التاريخ اليوم أو تاريخاً لاحقاً.',
+    ],
+    'start_time' => [
+        'date_format' => 'يجب أن يكون تنسيق وقت البدء HH:MM.',
+    ],
+    // ],
+
+    // ترجمة أسماء الحقول
+    'attributes' => [
+        // مشتركة
+        'name'               => 'الاسم',
+        'name.en'            => 'الاسم (بالإنجليزية)',
+        'name.ar'            => 'الاسم (بالعربية)',
+        'description'        => 'الوصف',
+        'description.en'     => 'الوصف (بالإنجليزية)',
+        'description.ar'     => 'الوصف (بالعربية)',
+        'price'              => 'السعر',
+        'email'              => 'البريد الإلكتروني',
+        'password'           => 'كلمة المرور',
+
+        // المحطة
+        'parent_station_id'  => 'المحطة الرئيسية',
+        'address'            => 'العنوان',
+        'address.en'         => 'العنوان (بالإنجليزية)',
+        'address.ar'         => 'العنوان (بالعربية)',
+        'location_x'         => 'خط العرض',
+        'location_y'         => 'خط الطول',
+        'opening_time'       => 'وقت الافتتاح',
+        'closing_time'       => 'وقت الإغلاق',
+
+        // الحجز
+        'station_id'         => 'المحطة',
+        'wash_type_id'       => 'نوع الغسيل',
+        'date'               => 'التاريخ',
+        'start_time'         => 'وقت البدء',
+        'end_time'           => 'وقت الانتهاء',
+        'status'             => 'الحالة',
+    ],
+];

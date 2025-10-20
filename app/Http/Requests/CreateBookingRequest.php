@@ -43,11 +43,11 @@ class CreateBookingRequest extends FormRequest
         $bookingDate = Carbon::parse($this->date);
 
         if ($bookingDate->isPast()) {
-            $validator->errors()->add('date', 'can not book in an ended day');
+            $validator->errors()->add('date', __('validation.booking.date_in_past'));
         }
 
         if ($bookingDate->greaterThan(Carbon::now()->addMonth())) {
-            $validator->errors()->add('date', 'can not book more than a month in advance');
+            $validator->errors()->add('date', __('validation.booking.date_too_far'));
         }
 
         if ($station->opening_time && $station->closing_time) {
@@ -55,7 +55,7 @@ class CreateBookingRequest extends FormRequest
             $workEnd = Carbon::parse($station->closing_time);
 
             if ($startTime->lt($workStart) || $endTime->gt($workEnd)) {
-                $validator->errors()->add('start_time', 'time is outside station working hours.');
+                $validator->errors()->add('start_time', __('validation.booking.outside_working_hours'));
             }
         }
 
@@ -72,7 +72,7 @@ class CreateBookingRequest extends FormRequest
             ->exists();
 
         if ($conflict) {
-            $validator->errors()->add('start_time', 'there is another booking in this time slot.');
+            $validator->errors()->add('start_time', __('validation.booking.conflict_time_slot'));
         }
     }
 }

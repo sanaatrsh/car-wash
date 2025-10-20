@@ -22,9 +22,13 @@ class UpdateWashTypeRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => ['sometimes', 'string', 'max:255'],
-            'price' => ['sometimes', 'numeric', 'min:0'],
-            'description' => ['nullable', 'string'],
+            'name'                 => ['sometimes', 'array'],
+            'name.en'              => ['sometimes', 'string', 'max:255'],
+            'name.ar'              => ['sometimes', 'string', 'max:255'],
+            'price'                => ['sometimes', 'numeric', 'min:0'],
+            'description'          => ['nullable', 'array'],
+            'description.en'       => ['nullable', 'string', 'max:255'],
+            'description.ar'       => ['nullable', 'string', 'max:255'],
         ];
     }
 }

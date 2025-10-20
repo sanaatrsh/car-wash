@@ -23,8 +23,12 @@ class CreateStationRequest extends FormRequest
     {
         return [
             'parent_station_id' => ['nullable', 'exists:stations,id'],
-            'name'              => ['required', 'string', 'max:255'],
-            'address'           => ['required', 'string', 'max:255'],
+            'name'              => ['required', 'array'],
+            'name.en'           => ['required', 'string'],
+            'name.ar'           => ['required', 'string'],
+            'address'           => ['required', 'array'],
+            'address.en'        => ['required', 'string', 'max:255'],
+            'address.ar'        => ['required', 'string', 'max:255'],
             'location_x'        => ['required', 'numeric', 'between:-90,90'],
             'location_y'        => ['required', 'numeric', 'between:-180,180'],
             'opening_time'      => ['required', 'date_format:H:i'],

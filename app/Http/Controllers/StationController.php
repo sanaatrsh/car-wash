@@ -15,7 +15,7 @@ class StationController extends Controller
 
     public function index()
     {
-        $stations = Station::with('branches')->paginate(10);
+        $stations = Station::with('branches')->latest()->paginate(10);
 
         return $this->successResponse(
             StationResource::collection($stations),
