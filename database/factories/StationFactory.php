@@ -18,8 +18,14 @@ class StationFactory extends Factory
     {
         return [
             'parent_station_id' => null,
-            'name' => $this->faker->company . ' Station',
-            'address' => $this->faker->address,
+            'name' => [
+                'en' => $this->faker->company . ' Station',
+                'ar' => 'محطة ' . $this->faker->company,
+            ],
+            'address' => [
+                'en' => $this->faker->address,
+                'ar' => 'العنوان: ' . $this->faker->address,
+            ],
             'location_x' => $this->faker->latitude,
             'location_y' => $this->faker->longitude,
             'opening_time' => $this->faker->time('H:i'),

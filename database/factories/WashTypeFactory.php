@@ -17,10 +17,16 @@ class WashTypeFactory extends Factory
     public function definition(): array
     {
         return [
-            'name' => $this->faker->word() . ' Wash',
+            'name' => [
+                'en' => $this->faker->company . ' Station',
+                'ar' => 'محطة ' . $this->faker->company,
+            ],
             'duration' => 45,
             'price' => $this->faker->randomFloat(2, 5, 50),
-            'description' => $this->faker->sentence(),
+            'description' => [
+                'en' => $this->faker->sentence(),
+                'ar' => $this->faker->sentence(),
+            ],
             'created_at' => now(),
             'updated_at' => now(),
         ];
