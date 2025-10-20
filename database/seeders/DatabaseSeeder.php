@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Station;
 use App\Models\User;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -27,5 +28,6 @@ class DatabaseSeeder extends Seeder
         $admin->assignRole('admin');
 
         User::factory(10)->create();
+        Station::factory(10)->create();
     }
 }
