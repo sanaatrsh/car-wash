@@ -9,6 +9,6 @@ use Spatie\Translatable\HasTranslations;
 class WashType extends Model
 {
     use HasFactory, HasTranslations;
-    public $translatable = ['name', 'address'];
+    public $translatable = ['name', 'description'];
     protected $guarded;
 }

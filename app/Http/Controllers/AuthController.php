@@ -14,7 +14,7 @@ class AuthController extends Controller
 {
     use ApiResponseTrait;
 
-    public function signIn(SignInRequest $request)
+    public function register(SignInRequest $request)
     {
         $data = $request->validated();
         $data['password'] = Hash::make($data['password']);

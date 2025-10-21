@@ -5,10 +5,18 @@ namespace App\Http\Requests;
 use Illuminate\Foundation\Http\FormRequest;
 use App\Models\Booking;
 use App\Models\Station;
+use App\Services\BookingService;
 use Carbon\Carbon;
 
 class CreateBookingRequest extends FormRequest
 {
+    protected BookingService $bookingService;
+
+    public function __construct(BookingService $bookingService)
+    {
+        $this->bookingService = $bookingService;
+    }
+
     public function authorize(): bool
     {
         return true;
@@ -59,17 +67,12 @@ class CreateBookingRequest extends FormRequest
             }
         }
 
-        $conflict = Booking::where('station_id', $this->station_id)
-            ->where('date', $bookingDate->toDateString())
-            ->where(function ($query) use ($startTime, $endTime) {
-                $query->whereBetween('start_time', [$startTime, $endTime])
-                    ->orWhereBetween('end_time', [$startTime, $endTime])
-                    ->orWhere(function ($q) use ($startTime, $endTime) {
-                        $q->where('start_time', '<', $startTime)
-                            ->where('end_time', '>', $endTime);
-                    });
-            })
-            ->exists();
+        $conflict = $this->bookingService->hasTimeConflict(
+            $this->station_id,
+            $this->date,
+            $startTime->format('H:i'),
+            $endTime->format('H:i')
+        );
 
         if ($conflict) {
             $validator->errors()->add('start_time', __('validation.booking.conflict_time_slot'));

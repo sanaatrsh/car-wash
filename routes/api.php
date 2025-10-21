@@ -7,7 +7,7 @@ use App\Http\Controllers\WashTypeController;
 use Illuminate\Support\Facades\Route;
 
 // Public routes
-Route::post('/signin', [AuthController::class, 'signIn']);
+Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
 
 // Authenticated routes
@@ -23,7 +23,7 @@ Route::middleware('auth:sanctum')->group(function () {
 
     // Bookings - User actions
     Route::prefix('bookings')->group(function () {
-        Route::get('/user', [BookingController::class, 'userIndex']);
+        Route::get('/my-booking', [BookingController::class, 'userIndex']);
         Route::post('/', [BookingController::class, 'store']);
         Route::put('/{booking}/cancel', [BookingController::class, 'cancel']);
     });

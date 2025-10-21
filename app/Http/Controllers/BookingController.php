@@ -9,14 +9,21 @@ use App\Http\Resources\BookingResource;
 use App\Models\Booking;
 use App\Models\WashType;
 use App\Queries\BookingQueryBuilder;
+use App\Services\BookingService;
 use App\Traits\ApiResponseTrait;
-use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class BookingController extends Controller
 {
     use ApiResponseTrait;
+
+    protected BookingService $bookingService;
+
+    public function __construct(BookingService $bookingService)
+    {
+        $this->bookingService = $bookingService;
+    }
 
     public function index(Request $request)
     {
@@ -55,7 +62,7 @@ class BookingController extends Controller
             ...$request->validated(),
             'user_id' => Auth::id(),
             'status' => 'pending',
-            'end_time' => $this->calculateEndTime($request->start_time, $washType->duration),
+            'end_time' => $this->bookingService->calculateEndTime($request->start_time, $washType->duration),
         ]);
 
         $booking->load(['station', 'washType']);
@@ -88,14 +95,5 @@ class BookingController extends Controller
             new BookingResource($booking),
             'Booking updated successfully.'
         );
-    }
-
-
-
-    private function calculateEndTime(string $startTime, int $durationMinutes): string
-    {
-        return Carbon::createFromFormat('H:i', $startTime)
-            ->addMinutes($durationMinutes)
-            ->format('H:i');
     }
 }
