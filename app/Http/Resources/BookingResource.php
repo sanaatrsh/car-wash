@@ -18,12 +18,13 @@ class BookingResource extends JsonResource
             'id' => $this->id,
             'user' => new UserResource($this->whenLoaded('user')),
             'station' => new StationResource($this->whenLoaded('station')),
-            'wash_type' => new WashTypeResource($this->whenLoaded('washType')),
+            'washType' => new WashTypeResource($this->whenLoaded('washType')),
             'date' => $this->date,
-            'start_time' => $this->start_time,
-            'end_time' => $this->end_time,
+            'startTime' => $this->start_time,
+            'endTime' => $this->end_time,
             'status' => $this->status->value,
-            'created_at' => $this->created_at,
+            'createdAt' => $this->created_at->toDateTimeString(),
+            'updatedAt' => $this->updated_at?->toDateTimeString(),
         ];
     }
 }
