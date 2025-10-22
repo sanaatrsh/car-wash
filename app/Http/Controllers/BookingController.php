@@ -17,7 +17,7 @@ use Illuminate\Support\Facades\Auth;
 
 class BookingController extends Controller
 {
-    use ApiResponseTrait;
+
 
     public function index(FilterBookingRequest $request , BookingQueryBuilder $bookingQueryBuilder)
     {
