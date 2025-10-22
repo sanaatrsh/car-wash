@@ -17,14 +17,8 @@ use Illuminate\Support\Facades\Auth;
 class BookingController extends Controller
 {
     use ApiResponseTrait;
-    protected BookingService $bookingService;
 
-    public function __construct(BookingService $bookingService)
-    {
-        $this->bookingService = $bookingService;
-    }
-
-    public function index(Request $request , BookingQueryBuilder $bookingQueryBuilder)
+    public function index(FilterBookingRequest $request , BookingQueryBuilder $bookingQueryBuilder)
     {
         $bookings = $bookingQueryBuilder
             ->filterByStation($request->station_id)
