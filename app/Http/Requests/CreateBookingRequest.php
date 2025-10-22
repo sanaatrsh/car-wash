@@ -3,20 +3,12 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
-use App\Models\Booking;
-use App\Models\Station;
-use App\Services\BookingService;
-use Carbon\Carbon;
+use App\Rules\BookingDateNotTooFar;
+use App\Rules\BookingWithinWorkingHours;
+use App\Rules\NoBookingConflict;
 
 class CreateBookingRequest extends FormRequest
 {
-    protected BookingService $bookingService;
-
-    public function __construct(BookingService $bookingService)
-    {
-        $this->bookingService = $bookingService;
-    }
-
     public function authorize(): bool
     {
         return true;
@@ -25,57 +17,38 @@ class CreateBookingRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'station_id'   => ['required', 'exists:stations,id'],
-            'wash_type_id' => ['required', 'exists:wash_types,id'],
-            'date'         => ['required', 'date', 'after_or_equal:today'],
-            'start_time'   => ['required', 'date_format:H:i'],
+            'stationId' => ['required', 'exists:stations,id'],
+            'washTypeId' => ['required', 'exists:wash_types,id'],
+            'date' => [
+                'required',
+                'date',
+                'after_or_equal:today',
+                new BookingDateNotTooFar(),
+            ],
+            'startTime' => [
+                'required',
+                'date_format:H:i',
+                new BookingWithinWorkingHours(
+                    $this->input('stationId'),
+                    $this->input('date')
+                ),
+                new NoBookingConflict(
+                    $this->input('stationId'),
+                    $this->input('date')
+                ),
+            ],
         ];
     }
 
-    public function withValidator($validator)
+    public function validated($key = null, $default = null): array
     {
-        $validator->after(function ($validator) {
-            $this->validateBookingLogic($validator);
-        });
-    }
+        $validated = parent::validated($key, $default);
 
-    protected function validateBookingLogic($validator)
-    {
-        $station = Station::find($this->station_id);
-        if (!$station) return;
-
-        $washDuration = 45;
-        $startTime = Carbon::parse($this->start_time);
-        $endTime = (clone $startTime)->addMinutes($washDuration);
-
-        $bookingDate = Carbon::parse($this->date);
-
-        if ($bookingDate->isPast()) {
-            $validator->errors()->add('date', __('validation.booking.date_in_past'));
-        }
-
-        if ($bookingDate->greaterThan(Carbon::now()->addMonth())) {
-            $validator->errors()->add('date', __('validation.booking.date_too_far'));
-        }
-
-        if ($station->opening_time && $station->closing_time) {
-            $workStart = Carbon::parse($station->opening_time);
-            $workEnd = Carbon::parse($station->closing_time);
-
-            if ($startTime->lt($workStart) || $endTime->gt($workEnd)) {
-                $validator->errors()->add('start_time', __('validation.booking.outside_working_hours'));
-            }
-        }
-
-        $conflict = $this->bookingService->hasTimeConflict(
-            $this->station_id,
-            $this->date,
-            $startTime->format('H:i'),
-            $endTime->format('H:i')
-        );
-
-        if ($conflict) {
-            $validator->errors()->add('start_time', __('validation.booking.conflict_time_slot'));
-        }
+        return [
+            'stationId' => $validated['stationId'],
+            'washTypeId' => $validated['washTypeId'],
+            'date' => $validated['date'],
+            'startTime' => $validated['startTime'],
+        ];
     }
 }
