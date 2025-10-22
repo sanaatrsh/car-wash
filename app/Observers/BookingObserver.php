@@ -2,6 +2,7 @@
 
 namespace App\Observers;
 
+use App\Enums\BookingStatusEnum;
 use App\Models\Booking;
 use App\Services\BookingService;
 
@@ -13,6 +14,6 @@ class BookingObserver
     public function creating(Booking $booking): void
     {
         $booking->user_id = auth()->id();
-        $booking->status = 'status';
+        $booking->status = BookingStatusEnum::PENDING;
     }
 }

@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Enums\BookingStatusEnum;
 use App\Models\Station;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
@@ -25,7 +26,7 @@ class FilterBookingRequest extends FormRequest
     {
         return [
             'stationId' => ['nullable' , 'integer' , Rule::exists('stations', 'id')],
-            'status' => ['nullable' , 'string'],
+            'status' => ['nullable' , 'string' , Rule::in(array_values(BookingStatusEnum::cases()))],
             'userId' => ['nullable' , 'integer' , Rule::exists('users', 'id')],
             'from'   => ['nullable' , 'date'],
             'to'    => ['nullable' , 'date' , 'after_or_equal:from'],
