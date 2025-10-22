@@ -13,6 +13,11 @@ class BookingQueryBuilder
         $this->query = Booking::query();
     }
 
+    public static function make(): self
+    {
+        return new self();
+    }
+
     public function filterByStation($stationId)
     {
         if ($stationId) {

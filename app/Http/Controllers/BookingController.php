@@ -17,7 +17,6 @@ use Illuminate\Support\Facades\Auth;
 class BookingController extends Controller
 {
     use ApiResponseTrait;
-
     protected BookingService $bookingService;
 
     public function __construct(BookingService $bookingService)
@@ -25,9 +24,9 @@ class BookingController extends Controller
         $this->bookingService = $bookingService;
     }
 
-    public function index(Request $request)
+    public function index(Request $request , BookingQueryBuilder $bookingQueryBuilder)
     {
-        $bookings = (new BookingQueryBuilder())
+        $bookings = $bookingQueryBuilder
             ->filterByStation($request->station_id)
             ->filterByUser($request->user_id)
             ->filterByStatus($request->status)
@@ -43,7 +42,7 @@ class BookingController extends Controller
 
     public function userIndex()
     {
-        $bookings = (new BookingQueryBuilder())
+        $bookings = BookingQueryBuilder::make()
             ->filterByUser(Auth::id())
             ->withRelations()
             ->paginate(10);
