@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\CancelBookingRequest;
 use App\Http\Requests\CreateBookingRequest;
+use App\Http\Requests\FilterBookingRequest;
 use App\Http\Requests\UpdateBookingRequest;
 use App\Http\Resources\BookingResource;
 use App\Models\Booking;
@@ -30,59 +31,23 @@ class BookingController extends Controller
         );
     }
 
-    public function userIndex()
-    {
-        $bookings = BookingQueryBuilder::make()
-            ->filterByUser(Auth::id())
-            ->withRelations()
-            ->paginate(10);
-
-        return $this->successResponse(
-            BookingResource::collection($bookings),
-            'Bookings retrieved successfully.'
-        );
-    }
-
-    public function store(CreateBookingRequest $request)
+    public function store(CreateBookingRequest $request , BookingService $bookingService)
     {
         $washType = WashType::findOrFail($request->wash_type_id);
 
-        $booking = Booking::create([
+        $booking = Booking::query()->create([
             ...$request->validated(),
-            'user_id' => Auth::id(),
-            'status' => 'pending',
-            'end_time' => $this->bookingService->calculateEndTime($request->start_time, $washType->duration),
+            'end_time' => $bookingService->calculateEndTime($request->input('startTime'), $washType->duration),
         ]);
 
-        $booking->load(['station', 'washType']);
-
-        return $this->successResponse(
-            new BookingResource($booking),
-            'Booking created successfully.'
-        );
+        return BookingResource::make($booking->load(['station', 'washType']));
     }
 
-    public function cancel(CancelBookingRequest $request, Booking $booking)
-    {
-        $booking->update([
-            'status' => $request->status ?? 'cancelled',
-        ]);
-
-        return $this->successResponse(
-            new BookingResource($booking),
-            'Booking updated successfully.'
-        );
-    }
 
     public function update(UpdateBookingRequest $request, Booking $booking)
     {
-        $booking->update([
-            'status' => $request->status,
-        ]);
+        $booking->update(['status' => $request->status]);
 
-        return $this->successResponse(
-            new BookingResource($booking),
-            'Booking updated successfully.'
-        );
+       return response()->noContent();
     }
 }
