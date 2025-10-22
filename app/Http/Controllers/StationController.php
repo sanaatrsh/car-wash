@@ -25,23 +25,16 @@ class StationController extends Controller
             $stationsQuery = $stationsQuery->nearLocation($lat, $lng);
         }
 
-        $stations = $stationsQuery->paginate(10);
-
-        return $this->successResponse(
-            StationResource::collection($stations),
-            'Stations retrieved successfully.'
+        return StationResource::collection(
+            $stationsQuery->paginate($request->get('perPage' , 10))
         );
     }
 
 
     public function store(CreateStationRequest $request)
     {
-        $station = Station::create($request->validated());
-
-        return $this->successResponse(
-            new StationResource($station),
-            'Station created successfully.',
-            201
+        return StationResource::make(
+            Station::query()->create($request->validated())
         );
     }
 
@@ -49,9 +42,8 @@ class StationController extends Controller
     {
         $station->update($request->validated());
 
-        return $this->successResponse(
-            new StationResource($station),
-            'Station updated successfully.'
+        return StationResource::make(
+            $station->fresh()
         );
     }
 
@@ -59,6 +51,6 @@ class StationController extends Controller
     {
         $station->delete();
 
-        return $this->successResponse(null, 'Station deleted successfully.');
+        return response()->noContent();
     }
 }
