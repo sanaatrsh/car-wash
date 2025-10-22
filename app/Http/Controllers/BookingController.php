@@ -21,16 +21,12 @@ class BookingController extends Controller
     public function index(FilterBookingRequest $request , BookingQueryBuilder $bookingQueryBuilder)
     {
         $bookings = $bookingQueryBuilder
-            ->filterByStation($request->station_id)
-            ->filterByUser($request->user_id)
-            ->filterByStatus($request->status)
-            ->filterByDateRange($request->from_date, $request->to_date)
-            ->withRelations()
-            ->paginate(10);
+            ->applyFilters($request)
+            ->withRelations(['station', 'washType'])
+            ->getQuery();
 
-        return $this->successResponse(
-            BookingResource::collection($bookings),
-            'Bookings retrieved successfully.'
+        return BookingResource::collection(
+            $bookings->paginate($request->get('perPage' , 10))
         );
     }
 

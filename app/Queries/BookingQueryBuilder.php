@@ -2,11 +2,15 @@
 
 namespace App\Queries;
 
+use App\Http\Requests\FilterBookingRequest;
 use App\Models\Booking;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Http\Request;
 
 class BookingQueryBuilder
 {
-    protected $query;
+    /** @var Builder<Booking> */
+    protected Builder $query;
 
     public function __construct()
     {
@@ -18,49 +22,60 @@ class BookingQueryBuilder
         return new self();
     }
 
-    public function filterByStation($stationId)
+    public function applyFilters(FilterBookingRequest $request): self
     {
-        if ($stationId) {
+        $this->filterByStation($request->input('stationId'))
+            ->filterByStatus($request->input('status'))
+            ->filterByUser($request->input('userId'))
+            ->filterByDateRange($request->input('from'), $request->input('to'));
+
+        return $this;
+    }
+
+    public function filterByStation(?int $stationId): self
+    {
+        if ($stationId)
             $this->query->where('station_id', $stationId);
-        }
+
         return $this;
     }
 
-    public function filterByUser($userId)
+    public function filterByUser(?int $userId): self
     {
-        if ($userId) {
+        if ($userId)
             $this->query->where('user_id', $userId);
-        }
+
         return $this;
     }
 
-    public function filterByStatus($status)
+    public function filterByStatus(?string $status): self
     {
-        if ($status) {
+        if ($status)
             $this->query->where('status', $status);
-        }
+
         return $this;
     }
 
-    public function filterByDateRange($from, $to)
+    public function filterByDateRange(?string $from, ?string $to): self
     {
-        if ($from) {
+        if ($from)
             $this->query->whereDate('date', '>=', $from);
-        }
-        if ($to) {
+
+        if ($to)
             $this->query->whereDate('date', '<=', $to);
-        }
+
         return $this;
     }
 
-    public function withRelations()
+    public function withRelations(array $relations = ['user', 'station', 'washType']): self
     {
-        $this->query->with(['user', 'station', 'washType']);
+        $this->query->with($relations);
+
         return $this;
     }
 
-    public function paginate($perPage = 10)
+    public function getQuery(): Builder
     {
-        return $this->query->orderBy('date', 'desc')->paginate($perPage);
+        return $this->query;
     }
 }
