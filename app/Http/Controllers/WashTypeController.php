@@ -15,7 +15,7 @@ class WashTypeController extends Controller
 
     public function index()
     {
-        $washTypes = WashType::paginate(10);
+        $washTypes = WashType::all();
 
         return $this->successResponse(
             WashTypeResource::collection($washTypes),
