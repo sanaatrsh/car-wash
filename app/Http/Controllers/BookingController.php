@@ -33,11 +33,13 @@ class BookingController extends Controller
 
     public function store(CreateBookingRequest $request , BookingService $bookingService)
     {
-        $washType = WashType::findOrFail($request->wash_type_id);
+        $duration = WashType::query()
+            ->where('id', $request->input('washTypeId'))
+            ->value('duration');
 
         $booking = Booking::query()->create([
             ...$request->validated(),
-            'end_time' => $bookingService->calculateEndTime($request->input('startTime'), $washType->duration),
+            'end_time' => $bookingService->calculateEndTime($request->input('startTime'), $duration),
         ]);
 
         return BookingResource::make($booking->load(['station', 'washType']));
