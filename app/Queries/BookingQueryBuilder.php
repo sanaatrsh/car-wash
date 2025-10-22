@@ -6,6 +6,7 @@ use App\Http\Requests\FilterBookingRequest;
 use App\Models\Booking;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class BookingQueryBuilder
 {
@@ -34,14 +35,16 @@ class BookingQueryBuilder
 
     public function filterByStation(?int $stationId): self
     {
-        if ($stationId)
+        if ($stationId && Auth::user()->hasRole('admin'))
             $this->query->where('station_id', $stationId);
 
         return $this;
     }
 
-    public function filterByUser(?int $userId): self
+    public function filterByUser(?int $userId ): self
     {
+        $userId = Auth::user()->hasRole('admin') ? $userId : Auth::user()->id;
+
         if ($userId)
             $this->query->where('user_id', $userId);
 

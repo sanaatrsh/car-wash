@@ -17,17 +17,15 @@ use Illuminate\Support\Facades\Auth;
 
 class BookingController extends Controller
 {
-
-
-    public function index(FilterBookingRequest $request , BookingQueryBuilder $bookingQueryBuilder)
+    public function index(FilterBookingRequest $request)
     {
-        $bookings = $bookingQueryBuilder
+        $bookingsQuery = BookingQueryBuilder::make()
             ->applyFilters($request)
-            ->withRelations(['station', 'washType'])
+            ->withRelations(['user' , 'station', 'washType'])
             ->getQuery();
 
         return BookingResource::collection(
-            $bookings->paginate($request->get('perPage' , 10))
+            $bookingsQuery->paginate($request->get('perPage' , 10))
         );
     }
 
