@@ -3,23 +3,29 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\LoginRequest;
-use App\Http\Requests\SignInRequest;
+use App\Http\Requests\RegisterRequest;
 use App\Http\Resources\UserResource;
 use App\Models\User;
 use App\Traits\ApiResponseTrait;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Spatie\MediaLibrary\MediaCollections\Exceptions\FileDoesNotExist;
+use Spatie\MediaLibrary\MediaCollections\Exceptions\FileIsTooBig;
 
 class AuthController extends Controller
 {
     use ApiResponseTrait;
 
-    public function register(SignInRequest $request)
+    /**
+     * @throws FileIsTooBig
+     * @throws FileDoesNotExist
+     */
+    public function register(RegisterRequest $request)
     {
-        $data = $request->validated();
-        $data['password'] = Hash::make($data['password']);
-
-        $user = User::create($data);
+        $user = User::create([
+            ...$request->validated(),
+            'password' => Hash::make($request->validated('password')),
+        ]);
 
         $user->assignRole('user');
 
@@ -37,11 +43,9 @@ class AuthController extends Controller
 
     public function login(LoginRequest $request)
     {
-        $data = $request->validated();
+        $user = User::query()->where('email', $request->validated('email'))->first();
 
-        $user = User::where('email', $data['email'])->first();
-
-        if (!$user || ! Hash::check($data['password'], $user->password)) {
+        if (!$user || ! Hash::check($request->validated('password'), $user->password)) {
             return $this->errorResponse('The provided credentials are incorrect.', 401);
         }
 
