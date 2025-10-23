@@ -9,7 +9,15 @@ use Illuminate\Database\Eloquent\Model;
 class Booking extends Model
 {
     use HasFactory;
-    protected $guarded;
+    protected $fillable = [
+        'user_id',
+        'status',
+        'start_time',
+        'end_time',
+        'date',
+        'station_id',
+        'wash_type_id',
+    ];
 
     protected $casts = [
         'status' => BookingStatusEnum::class,
